@@ -1,0 +1,45 @@
+transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n  transfer <file|directory>\n  ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo "  ";}
+
+function set-proxy {
+    export http_proxy=http://127.0.0.1:7890
+    export https_proxy=$http_proxy
+    export HTTP_PROXY=$http_proxy
+    export HTTPS_PROXY=$http_proxy
+    export NO_PROXY=localhost,127.0.0.1
+	env | grep 7890
+	echo "ok"
+}
+# https://forum.suse.org.cn/t/topic/14557
+alias fcd='cd $(fd --type directory | fzf)'
+
+alias sudo="sudo "
+alias kde-restart="kquitapp5 plasmashell && kstart plasmashell"
+alias wps-office="QT_SCREEN_SCALE_FACTORS=1 wps-office"
+alias iftop="sudo iftop"
+alias pyc="proxychains4"
+alias hexo-server='hexo c && hexo g && hexo s'
+alias hugo-server='hugo server -D'
+alias ref-dup="cat ~/.password | sudo -S proxychains4 zypper ref && cat ~/.password | sudo -S proxychains4 zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
+alias cf="clang-format --style=WebKit"
+alias py="python3"
+alias pip='python3 -m pip'
+alias paste-farsee='curl -F "c=@-" "https://fars.ee/"'
+alias paste-termbin="nc termbin.com 9999"
+alias mysql45='xdg-open http://localhost:8000/iframe/ && caddy file-server --listen :8000 --browse --root ~/Documents/MySQL45/mysql45.site'
+alias ping='ping -c 5'
+alias www='xdg-open http://localhost:8000 && caddy file-server --listen :8000 --browse --root $PWD'
+alias c='clear'
+alias h='history'
+alias ipe='curl ipinfo.io/ip'
+alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
+alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
+alias ls='exa --icons'
+alias la='ls -a'
+alias git='LANG=en_US.UTF-8 git'
+alias git-push-all='for i in $(git remote) ;do git push $i ;done'
+alias git-force-push-all='for i in $(git remote) ;do git push -f $i ;done'
+alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
+alias cfgit='git --git-dir=/home/idea/.cfg/ --work-tree=/home/idea'
+alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
+alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
+alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
