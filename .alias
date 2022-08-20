@@ -20,6 +20,7 @@ alias pyc="proxychains4"
 alias hexo-server='hexo c && hexo g && hexo s'
 alias hugo-server='hugo server -D'
 alias ref-dup="cat ~/.password | sudo -S proxychains4 zypper ref && cat ~/.password | sudo -S proxychains4 zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
+#alias ref-dup="cat ~/.password | sudo -S zypper ref && cat ~/.password | sudo -S zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
 alias cf="clang-format --style=WebKit"
 alias py="python3"
 alias pip='python3 -m pip'
@@ -30,7 +31,8 @@ alias ping='ping -c 5'
 alias www='xdg-open http://localhost:8000 && caddy file-server --listen :8000 --browse --root $PWD'
 alias c='clear'
 alias h='history'
-alias ipe='curl ipinfo.io/ip'
+alias ipe_1='curl http://myip.ipip.net'
+alias ipe_2='curl ipinfo.io/ip && echo " "'
 alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
 alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
 alias ls='exa --icons'
@@ -43,3 +45,4 @@ alias cfgit='git --git-dir=/home/idea/.cfg/ --work-tree=/home/idea'
 alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
 alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
 alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
+alias clashui='xdg-open http://127.0.0.1:7891/ui/'
