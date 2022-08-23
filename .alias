@@ -35,7 +35,8 @@ alias ipe_1='curl http://myip.ipip.net'
 alias ipe_2='curl ipinfo.io/ip && echo " "'
 alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
 alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
-alias ls='exa --icons'
+alias lsc='exa --icons'
+alias ls='exa'
 alias la='ls -a'
 alias git='LANG=en_US.UTF-8 git'
 alias git-push-all='for i in $(git remote) ;do git push $i ;done'
