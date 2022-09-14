@@ -76,7 +76,7 @@ ZSH_THEME="macovsky"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump fzf)
+plugins=(git autojump fzf docker nvm docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 
