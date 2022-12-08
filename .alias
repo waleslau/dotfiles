@@ -1,7 +1,8 @@
+export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/bin:$HOME/.cargo/bin:$PATH
 transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n  transfer <file|directory>\n  ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo "  ";}
 
 function set-proxy {
-    export http_proxy=http://127.0.0.1:7890
+    export http_proxy=http://192.168.9.1:7890
     export https_proxy=$http_proxy
     export HTTP_PROXY=$http_proxy
     export HTTPS_PROXY=$http_proxy
@@ -19,8 +20,8 @@ alias iftop="sudo iftop"
 alias pyc="proxychains4"
 alias hexo-server='hexo c && hexo g && hexo s'
 alias hugo-server='hugo server -D'
-alias ref-dup="cat ~/.password | sudo -S proxychains4 zypper ref && cat ~/.password | sudo -S proxychains4 zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
-#alias ref-dup="cat ~/.password | sudo -S zypper ref && cat ~/.password | sudo -S zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
+#alias ref-dup="cat ~/.password | sudo -S proxychains4 zypper ref && cat ~/.password | sudo -S proxychains4 zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
+alias ref-dup="cat ~/.password | sudo -S zypper ref && cat ~/.password | sudo -S zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
 alias cf="clang-format --style=WebKit"
 alias py="python3"
 alias pip='python3 -m pip'
