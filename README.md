@@ -24,7 +24,7 @@ cfgit push
 ## start on a new system (migrate to this setup)
 
 ```bash
-git clone --bare https://ghproxy.com/https://github.com/waleslau/dotfiles.git $HOME/.cfg
+git clone --bare https://github.com/waleslau/dotfiles.git $HOME/.cfg
 alias cfgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 cfgit config --local status.showUntrackedFiles no
 # 移动所有会产生冲突的文件到.cfg-backup
