@@ -10,7 +10,7 @@
 # here, since multilingual X sessions would not work properly if LANG is over-
 # ridden in every subshell.
 
-export HISTTIMEFORMAT='%F %T ⚡'
+export HISTTIMEFORMAT='%F %T ⚡ '
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
