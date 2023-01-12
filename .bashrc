@@ -15,14 +15,13 @@ export HISTTIMEFORMAT='%F %T ⚡ '
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-alias nvm-update='nvm install --lts && nvm use --lts && nvm alias default lts/*'
 
 test -s ~/.alias && . ~/.alias || true
 
-if [ "$TERM" != "linux" ]; then
-    #source ~/.pureline/pureline ~/.pureline.conf
-	powerline-daemon -q
-	POWERLINE_BASH_CONTINUATION=1
-	POWERLINE_BASH_SELECT=1
-    source /usr/share/powerline/bash/powerline.sh 
-fi
+# if [ "$TERM" != "linux" ]; then
+#     #source ~/.pureline/pureline ~/.pureline.conf
+# 	powerline-daemon -q
+# 	POWERLINE_BASH_CONTINUATION=1
+# 	POWERLINE_BASH_SELECT=1
+#     source /usr/share/powerline/bash/powerline.sh 
+# fi

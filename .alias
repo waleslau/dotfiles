@@ -1,17 +1,22 @@
+test -s /usr/bin/starship || echo 'you need run "sudo zypper in starship"'
+test -s /usr/bin/starship && eval "$(starship init zsh)"
+
 export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/bin:$HOME/.cargo/bin:$PATH
 transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n  transfer <file|directory>\n  ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo "  ";}
 
 function set-proxy {
-    export http_proxy=http://192.168.9.1:7890
+    export http_proxy=$(cat ~/.http-proxy-url)
     export https_proxy=$http_proxy
     export HTTP_PROXY=$http_proxy
     export HTTPS_PROXY=$http_proxy
     export NO_PROXY=localhost,127.0.0.1
-	env | grep 7890
+	env | grep "$http_proxy"
 	echo "ok"
 }
-# https://forum.suse.org.cn/t/topic/14557
-alias fcd='cd $(fd --type directory | fzf)'
+
+alias fcd='cd $(fd -HI -t d | fzf)'
+alias fvi='vim $(fd -HI -t f | fzf)'
+alias fvi-sudo='cat ~/.password | sudo -S vim $(fd -HI -t f | fzf)'
 
 alias sudo="sudo "
 alias kde-restart="kquitapp5 plasmashell && kstart plasmashell"
@@ -53,3 +58,4 @@ alias cfgit-diff='cfgit diff'
 alias clashui-local='xdg-open http://127.0.0.1:7891/ui/'
 alias clashui-remote='xdg-open http://clash.razord.top/'
 alias nvidia_offload='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia'
+alias nvm-update='nvm install --lts;nvm use --lts;nvm alias default node'
