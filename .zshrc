@@ -1,7 +1,3 @@
-# If you come from bash you might have to change your $PATH.
-
-#export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -19,16 +15,8 @@
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+test -s $HOME/.alias && . $HOME/.alias
+test -s $HOME/.profile && . $HOME/.profile
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-test -s ~/.alias && . ~/.alias || true
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+test -x /usr/bin/starship || echo 'you need run "sudo zypper in starship"'
+test -x /usr/bin/starship && eval "$(starship init zsh)"
