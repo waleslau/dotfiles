@@ -68,3 +68,4 @@ fi
 # nvm install --lts
 # nvm use --lts
 # nvm alias default node
+set-proxy >/dev/null 2>&1 && echo "一.一"
