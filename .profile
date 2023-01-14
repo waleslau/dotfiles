@@ -24,30 +24,30 @@ test -z "$PROFILEREAD" && . /etc/profile || true
 # -- waleslau --
 
 # if running bash
-if [ -n "$BASH_VERSION" ]; then
-	echo "fine!"
-fi
+# if [ -n "$BASH_VERSION" ]; then
+#     echo "fine!"
+# fi
 
 # set $PATH
 
 case ":${PATH}:" in
-*:"$HOME/bin":*) ;;
-*)
-    export PATH="$HOME/bin:$PATH"
+    *:"$HOME/bin":*) ;;
+    *)
+        export PATH="$HOME/bin:$PATH"
     ;;
 esac
 
 case ":${PATH}:" in
-*:"$HOME/.local/bin":*) ;;
-*)
-    export PATH="$HOME/.local/bin:$PATH"
+    *:"$HOME/.local/bin":*) ;;
+    *)
+        export PATH="$HOME/.local/bin:$PATH"
     ;;
 esac
 
 case ":${PATH}:" in
-*:"/usr/local/bin":*) ;;
-*)
-    export PATH="/usr/local/bin:$PATH"
+    *:"/usr/local/bin":*) ;;
+    *)
+        export PATH="/usr/local/bin:$PATH"
     ;;
 esac
 
@@ -68,4 +68,4 @@ fi
 # nvm install --lts
 # nvm use --lts
 # nvm alias default node
-set-proxy >/dev/null 2>&1 && echo "一.一"
+command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
