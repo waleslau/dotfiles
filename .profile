@@ -25,11 +25,7 @@ test -z "$PROFILEREAD" && . /etc/profile || true
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
-    export HISTTIMEFORMAT='%F %T ⚡ '
+	echo "fine!"
 fi
 
 # set $PATH

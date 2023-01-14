@@ -8,9 +8,9 @@
 	spellcheck = false
 	startupmode = list
 [http "https://github.com"]
-	proxy = socks5h://192.168.9.1:7890
+	proxy = socks5h://127.0.0.1:7890
 [http "https://gitlab.com"]
-	proxy = socks5h://192.168.9.1:7890
+	proxy = socks5h://127.0.0.1:7890
 [init]
 	defaultBranch = main
 [alias]
