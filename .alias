@@ -16,6 +16,10 @@ if hash notify-send 2>/dev/null; then
     alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
+if hash nvim 2>/dev/null; then
+    alias vim="nvim"
+fi
+
 rg-fzf() {
     RG_PREFIX="rg --files-with-matches"
     local file
@@ -58,7 +62,7 @@ if hash caddy 2>/dev/null && hash xdg-open 2>/dev/null; then
 fi
 
 if hash xdg-open 2>/dev/null; then
-    alias clashui-web1-='xdg-open http://yacd.haishan.me/'
+    alias clashui-web1='xdg-open http://yacd.haishan.me/'
     alias clashui-web2='xdg-open http://clash.razord.top/'
 fi
 
@@ -66,27 +70,67 @@ if hash wps-office 2>/dev/null; then
     alias wps-office="QT_SCREEN_SCALE_FACTORS=1 wps-office"
 fi
 
+if hash kaf-cli 2>/dev/null; then
+    alias txt_to_epub='kaf-cli -format epub -lang zh -tips=0 -filename'
+else
+    echo 'go to https://github.com/ystyle/kaf-cli download kaf-cli'
+fi
+
+if hash chfs 2>/dev/null; then
+    alias chfs='chfs --port=8888'
+else
+    echo 'go to http://iscute.cn/chfs download chfs'
+fi
+
+if hash kquitapp5 2>/dev/null; then
+    alias plasmashell-restart="kquitapp5 plasmashell && kstart plasmashell"
+fi
+
+if hash nvidia-smi 2>/dev/null; then
+    alias nvidia_offload='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia'
+fi
+
+if hash qemu-img 2>/dev/null; then
+    alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
+else
+    echo 'run "sudo zypper install qemu-tools"'
+fi
+
+if hash virt-customize 2>/dev/null; then
+    alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
+else
+    echo 'run "sudo zypper install guestfs-tools"'
+fi
+
+if [ -s "$HOME/.password" ]; then
+    alias ref-dup='cat ~/.password | sudo -S zypper ref && sudo zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s'
+else
+    echo "create $HOME/.password ..."
+    #echo -n 'input sudo password: '
+    read -s -p 'input sudo password: ' tmp_pass
+    echo $tmp_pass > $HOME/.password
+fi
+
 alias git='LANG=en_US.UTF-8 git'
 alias git-push-all='for i in $(git remote) ;do git push $i ;done'
 alias git-force-push-all='for i in $(git remote) ;do git push -f $i ;done'
 alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
-alias cfgit='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
-alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
-alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
-alias cfgit-status='cfgit status'
-alias cfgit-restore='cfgit restore'
-alias cfgit-diff='cfgit diff'
 
-#alias ref-dup="cat ~/.password | sudo -S proxychains4 zypper ref && cat ~/.password | sudo -S proxychains4 zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
-alias ref-dup="cat ~/.password | sudo -S zypper ref && cat ~/.password | sudo -S zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s"
+if [ -d "$HOME/.cfg" ]; then
+    alias cfgit='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+    alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
+    alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
+    alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
+    alias cfgit-status='cfgit status'
+    alias cfgit-stash='cfgit stash'
+    alias cfgit-restore='cfgit restore'
+    alias cfgit-diff='cfgit diff'
+fi
+
 alias clang-format="clang-format --style=WebKit"
 alias paste-farsee='curl -F "c=@-" "https://fars.ee/"'
 alias paste-termbin="nc termbin.com 9999"
-alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
-alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
-alias plasmashell-restart="kquitapp5 plasmashell && kstart plasmashell"
-alias nvidia_offload='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia'
 alias ping='ping -c 5'
-alias ipe_1='curl http://myip.ipip.net'
-alias ipe_2='curl ipinfo.io/ip && echo " "'
+alias ip-lan='curl -s http://myip.ipip.net | sd "\n" "\t"'
+alias ip-wan='curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52" https://api.ip.sb/geoip | jq ".ip , .country" | sd "\"" "" | sd "\n" "\t"'
+alias ip-wan1='curl -s http://ipinfo.io/ip'
