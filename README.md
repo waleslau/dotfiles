@@ -7,8 +7,6 @@ git clone --bare https://github.com/waleslau/dotfiles.git $HOME/.cfg
 
 alias cfgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-cfgit config --local status.showUntrackedFiles no
-
 # move all the offending files to ~/.cfg-backup
 mkdir -p $HOME/.cfg-backup && cfgit checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} $HOME/.cfg-backup/{}
 
@@ -20,24 +18,36 @@ then enjoy it.
 
 ## if want to set a new dotfile repo
 
+### 1. Initialize a new repo
+
 ```bash
 git init --bare $HOME/.cfg
 alias cfgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-cfgit config --local status.showUntrackedFiles no
 echo "alias cfgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
 echo "alias cfgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.zshrc
 ```
 
-### how to use
+### 2. Add the following to `.gitignote`
 
 ```bash
-cfgit status
-cfgit add .vimrc
-cfgit commit -m "Add vimrc"
-cfgit add .bashrc
-cfgit commit -m "Add bashrc"
+# ignore everything
+*
+# if want to tracking some file, must be added manually, like this:
+# cfgit add -f filename
+```
+
+### 3. first commit
+
+```bash
+cfgit add -f .gitignore
+cfgit commit -m "first commit"
+```
+
+Then it can be pushed to the remote repo
+
+```bash
 cfgit remote add xxx xxxxx.git
-cfgit push -u xxx main
+cfgit push -u xxx <branch>
 ```
 
 enjoy it.

@@ -1,10 +1,4 @@
-# ignore everything and use ! to allow tracking
+# ignore everything
 *
-
-# ignore-list files, at top level and under any tracked directories
-!.gitignore
-
-# top level dirs
-!/.config/
-!/.local/
-!/.ssh/
+# if want to tracking some file, must be added manually, like this:
+# cfgit add -f filename
