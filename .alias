@@ -1,3 +1,6 @@
+if [ -z $user_alias_loaded ] ; then # ensure that each process loads the file only once
+
+# -- waleslau --
 transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo " ";}
 
 function set-proxy {
@@ -134,3 +137,11 @@ alias ping='ping -c 5'
 alias ip-lan='curl -s http://myip.ipip.net | sd "\n" "\t"'
 alias ip-wan='curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52" https://api.ip.sb/geoip | jq ".ip , .country" | sd "\"" "" | sd "\n" "\t"'
 alias ip-wan1='curl -s http://ipinfo.io/ip'
+
+#
+#
+#
+#
+#
+fi # ensure that each process loads the file only once
+user_alias_loaded='yes' # ensure that each process loads the file only once

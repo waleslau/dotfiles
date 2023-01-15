@@ -1,3 +1,5 @@
+if [ -z $user_profile_loaded ] ; then # ensure that each process loads the file only once
+
 # This file is read each time a login shell is started.
 # All other interactive shells will only read .bashrc; this is particularly
 # important for language settings, see below.
@@ -87,3 +89,11 @@ fi
 # nvm alias default node
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
+
+#
+#
+#
+#
+#
+fi # ensure that each process loads the file only once
+user_profile_loaded='yes' # ensure that each process loads the file only once
