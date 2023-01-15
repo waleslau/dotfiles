@@ -57,9 +57,26 @@ if [ -s "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
-# curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm/install.sh | bash
+# starship
+
+if [ -s /usr/bin/starship ];then
+    if [ -n "$BASH_VERSION" ]; then
+        eval "$(starship init bash)"
+    fi
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(starship init zsh)"
+    fi
+else
+    echo 'you need run "sudo zypper in starship"'
+fi
+
+# nvm
+
 if [ -d "$HOME/.nvm" ]; then
     export NVM_DIR="$HOME/.nvm"
+else
+    echo 'run "curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm/install.sh | bash" to install nvm'
+    echo 'and then run "nvm install --lts", "nvm use --lts"'
 fi
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 if [ -n "$BASH_VERSION" ]; then
@@ -68,4 +85,5 @@ fi
 # nvm install --lts
 # nvm use --lts
 # nvm alias default node
+
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1

@@ -11,6 +11,3 @@
 
 test -s $HOME/.alias && . $HOME/.alias
 test -s $HOME/.profile && . $HOME/.profile
-
-test -x /usr/bin/starship || echo 'you need run "sudo zypper in starship"'
-test -x /usr/bin/starship && eval "$(starship init bash)"
