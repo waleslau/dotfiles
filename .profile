@@ -86,4 +86,9 @@ fi
 # nvm use --lts
 # nvm alias default node
 
+if hash pnpm 2>/dev/null; then
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+    export PATH="$PNPM_HOME:$PATH"
+fi
+
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
