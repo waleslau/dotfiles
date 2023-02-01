@@ -120,8 +120,8 @@ alias git-push-all='for i in $(git remote) ;do git push $i ;done'
 alias git-force-push-all='for i in $(git remote) ;do git push -f $i ;done'
 alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
 
-if [ -d "$HOME/.cfg" ]; then
-    alias cfgit='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
+    alias cfgit='git --git-dir=$HOME/.local/share/dotfiles.GitBareRepo --work-tree=$HOME'
     alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
     alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
     alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
