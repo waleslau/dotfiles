@@ -131,6 +131,11 @@ if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
     alias cfgit-diff='cfgit diff'
 fi
 
+if hash yadm 2>/dev/null; then
+alias yadm-push-all='for i in `yadm remote show`;do yadm push $i;done'
+alias yadm-force-push-all='for i in `yadm remote show`;do yadm push -f $i;done'
+fi
+
 alias clang-format="clang-format --style=WebKit"
 alias paste-farsee='curl -F "c=@-" "https://fars.ee/"'
 alias paste-termbin="nc termbin.com 9999"
