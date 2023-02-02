@@ -59,17 +59,20 @@ if [ -s "$HOME/.cargo/env" ]; then
 fi
 
 # starship
-
-if [ -s /usr/bin/starship ] && [[ $- = *i* ]];then
-    if [ -n "$BASH_VERSION" ]; then
-        eval "$(starship init bash)"
+if [ $TERM = 'xterm-256color' ]; then
+    if [ -s /usr/bin/starship ]; then
+        if [ -n "$BASH_VERSION" ]; then
+            eval "$(starship init bash)"
+        fi
+        if [ -n "$ZSH_VERSION" ]; then
+            eval "$(starship init zsh)"
+        fi
+    else
+        echo 'you need install starship'
     fi
-    if [ -n "$ZSH_VERSION" ]; then
-        eval "$(starship init zsh)"
-    fi
-else
-    echo 'you need install starship'
 fi
+
+# pnpm
 
 if hash pnpm 2>/dev/null; then
     export PNPM_HOME="$HOME/.local/share/pnpm"
