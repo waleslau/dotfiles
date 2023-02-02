@@ -73,10 +73,35 @@ if [ $TERM = 'xterm-256color' ]; then
 fi
 
 # pnpm
-
 if hash pnpm 2>/dev/null; then
     export PNPM_HOME="$HOME/.local/share/pnpm"
     export PATH="$PNPM_HOME:$PATH"
+fi
+
+# ~/.proxy-url
+if [ ! -s $HOME/.proxy-url ]; then
+    echo "~/.proxy-url not found"
+    echo 'example: "socks5h://127.0.0.1:7890"'
+    echo "input proxy-url: "
+    read tmp_proxy_url
+    echo $tmp_proxy_url > $HOME/.proxy-url
+fi
+
+# git config
+if hash git 2>/dev/null && [ ! -s .gitconfig ] && [ -s $HOME/.proxy-url ]; then
+    git config --global user.name waleslau
+    git config --global user.email waleslau@foxmail.com
+    git config --global http.https://github.com.proxy $(cat ~/.proxy-url)
+    git config --global http.https://codeberg.org.proxy $(cat ~/.proxy-url)
+    git config --global init.defaultBranch main
+    git config --global core.editor vim
+    git config --global core.pager delta
+    git config --global interactive.diffFilter "delta --color-only"
+    git config --global delta.navigate true
+    git config --global delta.light false
+    git config --global delta.line-numbers true
+    git config --global merge.conflictstyle diff3
+    git config --global diff.colorMoved default
 fi
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1

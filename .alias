@@ -5,7 +5,13 @@
 transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo " ";}
 
 function set-proxy {
-    export http_proxy='http://127.0.0.1:7890'
+    if [ -s ~/.proxy-url ]; then
+        export http_proxy="$(cat ~/.proxy-url | sd 'socks5h' 'http')"
+    else
+        echo "~/.proxy-url not found"
+        echo 'echo "socks5h://127.0.0.1:7890" > ~/.proxy-url'
+        return
+    fi
     export https_proxy=$http_proxy
     export HTTP_PROXY=$http_proxy
     export HTTPS_PROXY=$http_proxy
@@ -119,8 +125,8 @@ if [ -s "$HOME/.password" ]; then
     alias ref-dup='cat ~/.password | sudo -S zypper ref && sudo zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s'
 else
     echo "create $HOME/.password ..."
-    #echo -n 'input sudo password: '
-    read -s -p 'input sudo password for sudo -S: ' tmp_pass
+    echo -n 'input sudo password: '
+    read tmp_pass
     echo $tmp_pass > $HOME/.password
 fi
 
@@ -141,8 +147,8 @@ if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
 fi
 
 if hash yadm 2>/dev/null; then
-alias yadm-push-all='for i in `yadm remote show`;do yadm push $i;done'
-alias yadm-force-push-all='for i in `yadm remote show`;do yadm push -f $i;done'
+    alias yadm-push-all='for i in `yadm remote show`;do yadm push $i;done'
+    alias yadm-force-push-all='for i in `yadm remote show`;do yadm push -f $i;done'
 fi
 
 alias clang-format="clang-format --style=WebKit"
