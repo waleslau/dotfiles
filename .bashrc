@@ -9,5 +9,5 @@
 
 # export HISTTIMEFORMAT='%F %T ⚡ '
 
-test -s $HOME/.alias && . $HOME/.alias
-test -s $HOME/.profile && . $HOME/.profile
+test -s $HOME/.alias && \. $HOME/.alias
+test -s $HOME/.profile && \. $HOME/.profile

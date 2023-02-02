@@ -76,14 +76,14 @@ fi
 
 if hash kaf-cli 2>/dev/null; then
     alias txt_to_epub='kaf-cli -format epub -lang zh -tips=0 -filename'
-else
-    echo 'go to https://github.com/ystyle/kaf-cli download kaf-cli'
+    #else
+    #    echo 'go to https://github.com/ystyle/kaf-cli download kaf-cli'
 fi
 
 if hash chfs 2>/dev/null; then
     alias chfs='chfs --port=8888'
-else
-    echo 'go to http://iscute.cn/chfs download chfs'
+    #else
+    #    echo 'go to http://iscute.cn/chfs download chfs'
 fi
 
 if hash kquitapp5 2>/dev/null; then
@@ -96,14 +96,14 @@ fi
 
 if hash qemu-img 2>/dev/null; then
     alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
-else
-    echo 'run "sudo zypper install qemu-tools"'
+    #else
+    #    echo 'you need install qemu-tools'
 fi
 
 if hash virt-customize 2>/dev/null; then
     alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
-else
-    echo 'run "sudo zypper install guestfs-tools"'
+    #else
+    #    echo 'you need install guestfs-tools'
 fi
 
 if [ -s "$HOME/.password" ]; then
@@ -111,7 +111,7 @@ if [ -s "$HOME/.password" ]; then
 else
     echo "create $HOME/.password ..."
     #echo -n 'input sudo password: '
-    read -s -p 'input sudo password: ' tmp_pass
+    read -s -p 'input sudo password for sudo -S: ' tmp_pass
     echo $tmp_pass > $HOME/.password
 fi
 

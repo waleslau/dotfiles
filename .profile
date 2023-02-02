@@ -2,7 +2,7 @@
 # All other interactive shells will only read .bashrc; this is particularly
 # important for language settings, see below.
 
-test -z "$PROFILEREAD" && . /etc/profile || true
+test -z "$PROFILEREAD" && \. /etc/profile || true
 
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
@@ -55,12 +55,12 @@ esac
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # then add rustup to path
 if [ -s "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
+    \. "$HOME/.cargo/env"
 fi
 
 # starship
 
-if [ -s /usr/bin/starship ];then
+if [ -s /usr/bin/starship ] && [[ $- = *i* ]];then
     if [ -n "$BASH_VERSION" ]; then
         eval "$(starship init bash)"
     fi
@@ -68,7 +68,7 @@ if [ -s /usr/bin/starship ];then
         eval "$(starship init zsh)"
     fi
 else
-    echo 'you need run "sudo zypper in starship"'
+    echo 'you need install starship'
 fi
 
 # nvm
@@ -77,7 +77,7 @@ if [ -d "$HOME/.nvm" ]; then
     export NVM_DIR="$HOME/.nvm"
 else
     echo 'run "curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm/install.sh | bash" to install nvm'
-    echo 'and then run "nvm install --lts", "nvm use --lts"'
+    echo 'and then run "nvm install --lts"'
 fi
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 if [ -n "$BASH_VERSION" ]; then
