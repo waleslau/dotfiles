@@ -4,6 +4,7 @@ set clipboard=unnamedplus
 set completeopt=noinsert,menuone,noselect
 set cursorline
 set hidden
+set inccommand=split
 set mouse=a
 set number
 set relativenumber
@@ -14,9 +15,10 @@ set wildmenu
 
 " Tabs size
 set expandtab
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 
 " Syntax
 filetype plugin indent on
 syntax on
+
