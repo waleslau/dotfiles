@@ -71,25 +71,10 @@ else
     echo 'you need install starship'
 fi
 
-# nvm
-
-if [ -d "$HOME/.nvm" ]; then
-    export NVM_DIR="$HOME/.nvm"
-else
-    echo 'run "curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm/install.sh | bash" to install nvm'
-    echo 'and then run "nvm install --lts"'
-fi
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-if [ -n "$BASH_VERSION" ]; then
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-fi
-# nvm install --lts
-# nvm use --lts
-# nvm alias default node
-
 if hash pnpm 2>/dev/null; then
     export PNPM_HOME="$HOME/.local/share/pnpm"
     export PATH="$PNPM_HOME:$PATH"
 fi
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
+

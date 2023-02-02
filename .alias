@@ -14,6 +14,15 @@ function set-proxy {
     echo "ok"
 }
 
+nvs-install() {
+    export NVS_HOME="$HOME/.local/share/nvs"
+    git clone https://github.com/jasongin/nvs "$NVS_HOME"
+    \. "$NVS_HOME/nvs.sh" install
+    nvs add lts
+    nvs use lts
+    nvs link lts
+}
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 if hash notify-send 2>/dev/null; then
