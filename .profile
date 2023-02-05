@@ -88,7 +88,7 @@ if [ ! -s $HOME/.proxy-url ]; then
 fi
 
 # git config
-if hash git 2>/dev/null && [ ! -s .gitconfig ] && [ -s $HOME/.proxy-url ]; then
+if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
     git config --global user.name waleslau
     git config --global user.email waleslau@foxmail.com
     git config --global http.https://github.com.proxy $(cat ~/.proxy-url)
@@ -102,6 +102,11 @@ if hash git 2>/dev/null && [ ! -s .gitconfig ] && [ -s $HOME/.proxy-url ]; then
     git config --global delta.line-numbers true
     git config --global merge.conflictstyle diff3
     git config --global diff.colorMoved default
+fi
+
+# pip
+if hash pip 2>/dev/null && [ ! -s ~/.config\pip\pip.conf ]; then
+    pip config set global.index-url https://opentuna.cn/pypi/web/simple
 fi
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
