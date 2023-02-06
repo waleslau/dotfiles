@@ -80,6 +80,7 @@ fi
 
 # set ~/.proxy-url
 if [ ! -s $HOME/.proxy-url ]; then
+    rm ~/.gitconfig
     echo "~/.proxy-url not found"
     echo 'example: "socks5h://127.0.0.1:7890"'
     echo "input proxy-url: "
@@ -107,7 +108,7 @@ if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
 fi
 
 # pypi mirror
-if hash pip 2>/dev/null && [ ! -s ~/.config\pip\pip.conf ]; then
+if hash pip 2>/dev/null && [ ! -s $HOME/.config/pip/pip.conf ]; then
     pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 fi
 
