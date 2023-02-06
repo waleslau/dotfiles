@@ -112,7 +112,7 @@ if hash pip 2>/dev/null && [ ! -s ~/.config\pip\pip.conf ]; then
 fi
 
 # nvs
-export NVS_HOME="$HOME/.local/share/nvs"
+[ -s "$HOME/.local/share/nvs/nvs.sh" ] && export NVS_HOME="$HOME/.local/share/nvs"
 [ -s "$NVS_HOME/nvs.sh" ] && . "$NVS_HOME/nvs.sh"
 
 # npmmirror
