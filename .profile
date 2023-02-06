@@ -111,8 +111,11 @@ if hash pip 2>/dev/null && [ ! -s ~/.config\pip\pip.conf ]; then
     pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 fi
 
+# nvs
+export NVS_HOME="$HOME/.local/share/nvs"
+[ -s "$NVS_HOME/nvs.sh" ] && . "$NVS_HOME/nvs.sh"
+
 # npmmirror
 if hash npm 2>/dev/null && [ ! -s ~/.npmrc ]; then
     npm config set registry='https://registry.npmmirror.com'
 fi
-
