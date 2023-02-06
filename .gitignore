@@ -1,4 +1,0 @@
-# ignore everything
-*
-# if want to tracking some file, must be added manually, like this:
-# cfgit add -f filename
