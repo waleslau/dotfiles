@@ -20,6 +20,17 @@ function set-proxy {
     echo "ok"
 }
 
+function unset-proxy {
+    unset http_proxy
+    unset https_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset NO_PROXY
+    env | grep PROXY
+    env | grep proxy
+    echo "ok"
+}
+
 nvs-install() {
     export NVS_HOME="$HOME/.local/share/nvs"
     git clone https://github.com/jasongin/nvs "$NVS_HOME"

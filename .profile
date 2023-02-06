@@ -72,13 +72,13 @@ if [ $TERM = 'xterm-256color' ]; then
     fi
 fi
 
-# pnpm
+# pnpm global
 if hash pnpm 2>/dev/null; then
     export PNPM_HOME="$HOME/.local/share/pnpm"
     export PATH="$PNPM_HOME:$PATH"
 fi
 
-# ~/.proxy-url
+# set ~/.proxy-url
 if [ ! -s $HOME/.proxy-url ]; then
     echo "~/.proxy-url not found"
     echo 'example: "socks5h://127.0.0.1:7890"'
@@ -86,6 +86,8 @@ if [ ! -s $HOME/.proxy-url ]; then
     read tmp_proxy_url
     echo $tmp_proxy_url > $HOME/.proxy-url
 fi
+
+command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
 
 # git config
 if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
@@ -104,10 +106,13 @@ if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
     git config --global diff.colorMoved default
 fi
 
-# pip
+# pypi mirror
 if hash pip 2>/dev/null && [ ! -s ~/.config\pip\pip.conf ]; then
-    pip config set global.index-url https://opentuna.cn/pypi/web/simple
+    pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 fi
 
-command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
+# npmmirror
+if hash npm 2>/dev/null && [ ! -s ~/.npmrc ]; then
+    npm config set registry='https://registry.npmmirror.com'
+fi
 
