@@ -72,6 +72,11 @@ if [ $TERM = 'xterm-256color' ]; then
     fi
 fi
 
+# term
+if [ $TERM = 'linux' ]; then
+    export LANG='en_US.UTF-8'
+fi
+
 # pnpm global
 if hash pnpm 2>/dev/null; then
     export PNPM_HOME="$HOME/.local/share/pnpm"
