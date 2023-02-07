@@ -5,12 +5,12 @@
 ## start on a new system (migrate to this setup)
 
 ```bash
-git clone --bare https://github.com/waleslau/dotfiles.git $HOME/.cfg
+git clone --bare https://github.com/waleslau/dotfiles.git $HOME/.local/share/dotfiles.GitBareRepo
 
 alias cfgit='/usr/bin/git --git-dir=$HOME/.local/share/dotfiles.GitBareRepo --work-tree=$HOME'
 
-# move all the offending files to ~/.cfg-backup
-mkdir -p $HOME/.cfg-backup && cfgit checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} $HOME/.cfg-backup/{}
+# move all the offending files to $HOME/.local/share/dotfiles.backup
+mkdir -p $HOME/.local/share/dotfiles.backup && cfgit checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} $HOME/.local/share/dotfiles.backup/{}
 
 cfgit checkout
 # There may be error messages, need to create some subdirectories manually, then execute the above script again to move the old configuration file, and then checkout again
