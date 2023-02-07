@@ -25,7 +25,6 @@ function unset-proxy {
     unset https_proxy
     unset HTTP_PROXY
     unset HTTPS_PROXY
-    unset NO_PROXY
     env | grep PROXY
     env | grep proxy
     echo "ok"
