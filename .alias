@@ -2,8 +2,6 @@
 # use `command -v command` or `hash command`
 # `hash` can detect binary only
 
-transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;echo " ";}
-
 function set-proxy {
     if [ -s ~/.proxy-url ]; then
         export http_proxy="$(cat ~/.proxy-url | sd 'socks5h' 'http')"
@@ -89,11 +87,6 @@ else
     alias la='ls -A'
 fi
 
-if hash caddy 2>/dev/null && hash xdg-open 2>/dev/null; then
-    alias mysql45='xdg-open http://localhost:8000/iframe/ && caddy file-server --listen :8000 --browse --root ~/Documents/MySQL45/mysql45.site'
-    alias www='xdg-open http://localhost:8000 && caddy file-server --listen :8000 --browse --root $PWD'
-fi
-
 if hash xdg-open 2>/dev/null; then
     alias clashui-web1='xdg-open http://yacd.haishan.me/'
     alias clashui-web2='xdg-open http://clash.razord.top/'
@@ -101,18 +94,6 @@ fi
 
 if hash wps-office 2>/dev/null; then
     alias wps-office="QT_SCREEN_SCALE_FACTORS=1 wps-office"
-fi
-
-if hash kaf-cli 2>/dev/null; then
-    alias txt_to_epub='kaf-cli -format epub -lang zh -tips=0 -filename'
-    #else
-    #    echo 'go to https://github.com/ystyle/kaf-cli download kaf-cli'
-fi
-
-if hash chfs 2>/dev/null; then
-    alias chfs='chfs --port=8888'
-    #else
-    #    echo 'go to http://iscute.cn/chfs download chfs'
 fi
 
 if hash kquitapp5 2>/dev/null; then
@@ -123,37 +104,20 @@ if hash nvidia-smi 2>/dev/null; then
     alias nvidia_offload='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia'
 fi
 
-if hash qemu-img 2>/dev/null; then
-    alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
-    #else
-    #    echo 'you need install qemu-tools'
-fi
+# https://github.com/ystyle/kaf-cli
+alias txt_to_epub='kaf-cli -format epub -lang zh -tips=0 -filename'
 
-if hash virt-customize 2>/dev/null; then
-    alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
-    #else
-    #    echo 'you need install guestfs-tools'
-fi
+# http://iscute.cn/chfs
+alias chfs='chfs --port=8888'
 
-if [ -s "$HOME/.password" ]; then
-    alias ref-dup='cat ~/.password | sudo -S zypper ref && sudo zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s'
-else
-    echo "create $HOME/.password ..."
-    echo -n 'input sudo password: '
-    read tmp_pass
-    echo $tmp_pass > $HOME/.password
-fi
+alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
+alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
 
-if hash git 2>/dev/null; then
-    alias git-push-all='for i in $(git remote) ;do git push $i ;done'
-    alias git-force-push-all='for i in $(git remote) ;do git push -f $i ;done'
-    alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
-fi
-
-if hash yadm 2>/dev/null; then
-    alias yadm-push-all='for i in `yadm remote show`;do yadm push $i;done'
-    alias yadm-force-push-all='for i in `yadm remote show`;do yadm push -f $i;done'
-fi
+alias ref-dup='cat ~/.password | sudo -S zypper ref && sudo zypper dup --no-recommends && cat ~/.password | sudo -S zypper ps -s'
+alias en='LANG="en_US.UTF-8"'
+alias git-pushall='git remote | xargs -i git push {}'
+alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
+alias yadm-pushall='yadm remote | xargs -i yadm push {}'
 
 if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
     alias cfgit='git --git-dir=$HOME/.local/share/dotfiles.GitBareRepo --work-tree=$HOME'
@@ -173,4 +137,4 @@ alias ping='ping -c 5'
 alias ip-lan='curl -s http://myip.ipip.net | sd "\n" "\t"'
 alias ip-wan='curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52" https://api.ip.sb/geoip | jq ".ip , .country" | sd "\"" "" | sd "\n" "\t"'
 alias ip-wan1='curl -s http://ipinfo.io/ip'
-alias en='LANG="en_US.UTF-8"'
+alias www="miniserve --index=index.html -v"

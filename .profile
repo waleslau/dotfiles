@@ -2,7 +2,7 @@
 # All other interactive shells will only read .bashrc; this is particularly
 # important for language settings, see below.
 
-test -z "$PROFILEREAD" && \. /etc/profile || true
+test -z "$PROFILEREAD" && . /etc/profile || true
 
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
@@ -30,27 +30,7 @@ fi
 # fi
 
 # set $PATH
-
-case ":${PATH}:" in
-    *:"$HOME/bin":*) ;;
-    *)
-        export PATH="$HOME/bin:$PATH"
-    ;;
-esac
-
-case ":${PATH}:" in
-    *:"$HOME/.local/bin":*) ;;
-    *)
-        export PATH="$HOME/.local/bin:$PATH"
-    ;;
-esac
-
-case ":${PATH}:" in
-    *:"/usr/local/bin":*) ;;
-    *)
-        export PATH="/usr/local/bin:$PATH"
-    ;;
-esac
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
 
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # then add rustup to path
@@ -95,6 +75,14 @@ fi
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
 
+# set ~/.password
+if [ ! -s "$HOME/.password" ]; then
+    echo "create $HOME/.password ..."
+    echo -n 'input sudo password: '
+    read tmp_pass
+    echo $tmp_pass > $HOME/.password
+fi
+
 # git config
 if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
     git config --global user.name waleslau
@@ -110,6 +98,13 @@ if hash git 2>/dev/null && [ ! -s ~/.gitconfig ] && [ -s ~/.proxy-url ]; then
     git config --global delta.line-numbers true
     git config --global merge.conflictstyle diff3
     git config --global diff.colorMoved default
+    git config --global alias.last 'log -1 HEAD'
+    git config --global alias.unstage 'reset HEAD --'
+    git config --global alias.co checkout
+    git config --global alias.ci commit
+    git config --global alias.st status
+    git config --global alias.sw switch
+    git config --global alias.lo "log --format=oneline"
 fi
 
 # pypi mirror
@@ -119,7 +114,7 @@ fi
 
 # nvs
 [ -s "$HOME/.local/share/nvs/nvs.sh" ] && export NVS_HOME="$HOME/.local/share/nvs"
-[ -s "$NVS_HOME/nvs.sh" ] && . "$NVS_HOME/nvs.sh"
+[ -s "$NVS_HOME/nvs.sh" ] && \. "$NVS_HOME/nvs.sh"
 
 # npmmirror
 if hash npm 2>/dev/null && [ ! -s ~/.npmrc ]; then
