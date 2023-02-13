@@ -4,30 +4,34 @@
 fmt_justfile:
     just --fmt --unstable
 
-init_linuxqq-nt-bwrap:
+init_linuxqq-bwrap:
     #!/usr/bin/env bash
-    set -euxo pipefail
     cd /tmp
     test -d linuxqq-nt-bwrap && rm -rf linuxqq-nt-bwrap
     git clone https://aur.archlinux.org/linuxqq-nt-bwrap.git
     cd linuxqq-nt-bwrap
     sed -i '/snapd-xdg-open/d' start.sh
     sed -i '/flatpak-xdg-utils/d' start.sh
+    i=1; while [ $i -le 10 ]; do sed -i '$d' start.sh; ((i++)); done
     sudo mkdir -p "/opt/QQ/workarounds"
     sudo cp -vf xdg-open.sh /opt/QQ/workarounds/
     sudo cp -vf config.json /opt/QQ/workarounds/config.json
     sudo cp -vf start.sh /opt/QQ/
     cp -v /usr/share/applications/qq.desktop ~/.local/share/applications
     sed -i "s|/opt/QQ/qq|/opt/QQ/start.sh|" ~/.local/share/applications/qq.desktop
-    ln -sf /opt/QQ/start.sh ~/bin/qq
+    ln -svf /opt/QQ/start.sh ~/bin/qq
 
-clear_wps_icons:
+init_wps-bwrap:
     #!/usr/bin/env bash
-    sudo rm /usr/share/applications/wps-office-et.desktop
-    sudo rm /usr/share/applications/wps-office-pdf.desktop
-    sudo rm /usr/share/applications/wps-office-wpp.desktop
-    sudo rm /usr/share/applications/wps-office-wps.desktop
-    sudo rm /usr/bin/wpspdf
+    cd /tmp
+    test -d wps-office-bwrap && rm -rf wps-office-bwrap
+    git clone https://aur.archlinux.org/wps-office-bwrap.git
+    cd wps-office-bwrap
+    sudo cp -vf wps-bwrap /usr/bin/wps-bwrap
+    sudo rm -f /usr/share/applications/wps-office*
+    sd '/usr/bin/wps-bwrap' "$HOME/bin/wps" wps-office-bwrap.desktop
+    cp -vf wps-bwrap ~/bin/wps
+    cp -vf wps-office-bwrap.desktop ~/.local/share/applications/wps-office-bwrap.desktop
 
 # examples
 _python:
