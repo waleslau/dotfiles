@@ -11,7 +11,8 @@ alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
 	--ro-bind ~/.config/fontconfig ~/.config/fontconfig \
 	--bind ~/.cache/fontconfig ~/.cache/fontconfig \
 	--bind ~/tmp ~/tmp \
-	--chdir ~"
+	--chdir ~ \
+	--share-net"
 
 function set-proxy {
     if [ -s ~/.proxy-url ]; then
