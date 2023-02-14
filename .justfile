@@ -27,11 +27,10 @@ init_wps-bwrap:
     test -d wps-office-bwrap && rm -rf wps-office-bwrap
     git clone https://aur.archlinux.org/wps-office-bwrap.git
     cd wps-office-bwrap
-    sudo cp -vf wps-bwrap /usr/bin/wps-bwrap
+    sudo cp -vf ~/.local/bin/wps-bwrap /usr/bin/wps-bwrap
+    cp -vf ~/.local/bin/wps-bwrap ~/bin/wps
     sudo rm -f /usr/share/applications/wps-office*
-    sd '/usr/bin/wps-bwrap' "$HOME/bin/wps" wps-office-bwrap.desktop
-    cp -vf wps-bwrap ~/bin/wps
-    cp -vf wps-office-bwrap.desktop ~/.local/share/applications/wps-office-bwrap.desktop
+    sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
 # examples
 _python:
