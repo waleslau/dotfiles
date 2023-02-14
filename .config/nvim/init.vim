@@ -5,7 +5,7 @@ set completeopt=noinsert,menuone,noselect
 set cursorline
 set hidden
 set inccommand=split
-set mouse=a
+set mouse=
 set number
 set relativenumber
 set splitbelow splitright

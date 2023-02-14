@@ -4,7 +4,7 @@ set clipboard=unnamedplus
 set completeopt=noinsert,menuone,noselect
 set cursorline
 set hidden
-set mouse=a
+set mouse=
 set number
 set relativenumber
 set splitbelow splitright
