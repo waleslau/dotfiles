@@ -3,34 +3,47 @@
 # `hash` can detect binary only
 
 alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
-	--tmpfs /sys --tmpfs /home --tmpfs /tmp --tmpfs /run --proc /proc --dev /dev \
-	--ro-bind "$XDG_RUNTIME_DIR" "$XDG_RUNTIME_DIR" \
-	--ro-bind /tmp/.X11-unix /tmp/.X11-unix \
-	--ro-bind /run/user/$UID/bus /run/user/$UID/bus \
-	--ro-bind ~/.local/share/fonts ~/.local/share/fonts \
-	--ro-bind ~/.config/fontconfig ~/.config/fontconfig \
-	--bind ~/.cache/fontconfig ~/.cache/fontconfig \
-	--bind ~/tmp ~/tmp \
-	--chdir ~ \
-	--share-net"
+--tmpfs /sys --tmpfs /home --tmpfs /tmp --tmpfs /run --proc /proc --dev /dev \
+--ro-bind "$XDG_RUNTIME_DIR" "$XDG_RUNTIME_DIR" \
+--ro-bind /tmp/.X11-unix /tmp/.X11-unix \
+--ro-bind /run/user/$UID/bus /run/user/$UID/bus \
+--ro-bind ~/.local/share/fonts ~/.local/share/fonts \
+--ro-bind ~/.config/fontconfig ~/.config/fontconfig \
+--bind ~/.cache/fontconfig ~/.cache/fontconfig \
+--bind ~/tmp ~/tmp \
+--chdir ~ \
+--share-net"
 
 function set-proxy {
-    if [ -s ~/.proxy-url ]; then
-        export http_proxy="$(cat ~/.proxy-url | sd 'socks5h' 'http')"
+    if curl $(cat ~/.proxy_server) &>/dev/null; then
+		cat >"$HOME/.ssh/config" <<EOF
+Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+    ProxyCommand nc -v -x $(cat ~/.proxy_server) %h %p
+EOF
+        sock5h_url="socks5h://$(cat ~/.proxy_server)"
+        http_url="http://$(cat ~/.proxy_server)"
+        export all_proxy=$http_url
+        export ALL_PROXY=$all_proxy
+        export http_proxy=$all_proxy
+        export https_proxy=$all_proxy
+        export HTTP_PROXY=$all_proxy
+        export HTTPS_PROXY=$all_proxy
+        export NO_PROXY=localhost,127.0.0.1
+        env | grep $(cat ~/.proxy_server)
+        git config --global http.https://github.com.proxy $sock5h_url
+        git config --global http.https://codeberg.org.proxy $sock5h_url
     else
-        echo "~/.proxy-url not found"
-        echo 'echo "socks5h://127.0.0.1:7890" > ~/.proxy-url'
-        return
+        echo '~/.proxy_server not ok..'
+        echo 'example: echo "127.0.0.1:7890" > ~/.proxy_server'
     fi
-    export https_proxy=$http_proxy
-    export HTTP_PROXY=$http_proxy
-    export HTTPS_PROXY=$http_proxy
-    export NO_PROXY=localhost,127.0.0.1
-    env | grep "$http_proxy"
-    echo "ok"
 }
 
 function unset-proxy {
+    unset all_proxy
+    unset ALL_PROXY
     unset http_proxy
     unset https_proxy
     unset HTTP_PROXY
