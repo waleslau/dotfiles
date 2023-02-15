@@ -39,7 +39,9 @@ if [ -s "$HOME/.cargo/env" ]; then
 fi
 
 # starship
-if [ $TERM = 'xterm-256color' ]; then
+if [ $TERM = 'linux' ]; then
+    export LANG='en_US.UTF-8'
+else
     if [ -s /usr/bin/starship ]; then
         if [ -n "$BASH_VERSION" ]; then
             eval "$(starship init bash)"
@@ -50,11 +52,6 @@ if [ $TERM = 'xterm-256color' ]; then
     else
         echo 'you need install starship'
     fi
-fi
-
-# check term
-if [ $TERM = 'linux' ]; then
-    export LANG='en_US.UTF-8'
 fi
 
 command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1

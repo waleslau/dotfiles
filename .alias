@@ -42,6 +42,8 @@ EOF
 }
 
 function unset-proxy {
+    sed -i '/http/d;/proxy/d' .gitconfig
+    echo 'SG9zdCBnaXRodWIuY29tCiAgICBIb3N0bmFtZSBzc2guZ2l0aHViLmNvbQogICAgUG9ydCA0NDMKICAgIFVzZXIgZ2l0Cg==' | base64 -d >.ssh/config
     unset all_proxy
     unset ALL_PROXY
     unset http_proxy
