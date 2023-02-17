@@ -49,17 +49,10 @@ function unset-proxy {
     echo "ok"
 }
 
-nvs-install() {
-    if [ -z $NVS_HOME ]; then
-        export NVS_HOME="$HOME/.local/share/nvs"
-        git clone https://github.com/jasongin/nvs "$NVS_HOME"
-        \. "$NVS_HOME/nvs.sh" install
-    else
-        echo "already install nvs at $NVS_HOME"
-    fi
-    nvs add lts
-    nvs use lts
-    nvs link lts
+n-install() {
+    curl -L https://raw.gitmirror.com/tj/n/master/bin/n > $HOME/.local/bin/n
+    chmod +x $HOME/.local/bin/n
+    $HOME/.local/bin/n lts
 }
 
 # Add an "alert" alias for long running commands.  Use like so:

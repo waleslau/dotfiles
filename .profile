@@ -91,9 +91,9 @@ if hash pip 2>/dev/null && [ ! -s $HOME/.config/pip/pip.conf ]; then
     pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 fi
 
-# nvs
-[ -s "$HOME/.local/share/nvs/nvs.sh" ] && export NVS_HOME="$HOME/.local/share/nvs"
-[ -s "$NVS_HOME/nvs.sh" ] && \. "$NVS_HOME/nvs.sh"
+# https://github.com/tj/n
+export N_PREFIX=$HOME/.n
+export PATH="$HOME/.n/bin:$PATH"
 
 # npmmirror
 if hash npm 2>/dev/null && [ ! -s ~/.npmrc ]; then
