@@ -126,7 +126,7 @@ alias chfs='chfs --port=8888'
 
 alias qcow2_compress="qemu-img convert -p -c -o compression_type=zstd -f qcow2 -O qcow2"
 alias qcow2_password_init="virt-customize --root-password password:root --run-command 'echo UGVybWl0Um9vdExvZ2luIHllcwo= | base64 -d >> /etc/ssh/sshd_config' -a"
-alias ref-dup-proxy='cat ~/.password | sudo -S proxychains4 zypper ref && sudo zypper dup --no-recommends && cat ~/.password | sudo -S proxychains4 zypper ps -s'
+alias ref-dup-dl-only='cat ~/.password | sudo -S proxychains4 zypper ref && sudo zypper dup --no-recommends --download-only'
 alias en='LANG="en_US.UTF-8"'
 alias git-pushall='git remote | xargs -i git push {}'
 alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
