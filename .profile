@@ -54,8 +54,6 @@ else
     fi
 fi
 
-command -v set-proxy >/dev/null 2>&1 && set-proxy >/dev/null 2>&1
-
 # set ~/.password
 if [ ! -s "$HOME/.password" ]; then
     echo "create $HOME/.password ..."
