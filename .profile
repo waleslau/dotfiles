@@ -2,7 +2,7 @@
 # All other interactive shells will only read .bashrc; this is particularly
 # important for language settings, see below.
 
-test -z "$PROFILEREAD" && \. /etc/profile || true
+test -z "$PROFILEREAD" && source /etc/profile || true
 
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
@@ -35,7 +35,7 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # then add rustup to path
 if [ -s "$HOME/.cargo/env" ]; then
-    \. "$HOME/.cargo/env"
+    source "$HOME/.cargo/env"
 fi
 
 # starship
