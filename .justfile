@@ -4,9 +4,11 @@
 fmt_justfile:
     just --fmt --unstable
 
-init_linuxqq-bwrap:
+_init_linuxqq-bwrap:
     #!/usr/bin/env bash
+    # TODO：目前这坨脚本不太好使了，有时间再继续折腾
     cd /tmp
+    curl -O https://dldir1.qq.com/qqfile/qq/QQNT/2355235c/linuxqq_3.1.1-11223_amd64.deb
     test -d linuxqq-nt-bwrap && rm -rf linuxqq-nt-bwrap
     git clone https://aur.archlinux.org/linuxqq-nt-bwrap.git
     cd linuxqq-nt-bwrap
