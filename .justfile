@@ -1,7 +1,7 @@
 @_default:
     just --choose
 
-fmt_justfile:
+fmt:
     just --fmt --unstable
 
 _init_linuxqq-bwrap:
@@ -34,8 +34,34 @@ init_wps-bwrap:
     sudo rm -f /usr/share/applications/wps-office*
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
+sys-init:
+    mkdir -p /home/idea/windows/970PLUS
+    mkdir -p /home/idea/windows/WinOS
+    mkdir -p /home/idea/windows/WinData
+    echo '/dev/nvme0n1p3 /home/idea/windows/WinOS   ntfs ro,fmask=333,dmask=222,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
+    echo '/dev/nvme0n1p4 /home/idea/windows/WinData ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
+    echo '/dev/nvme1n1p1 /home/idea/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
+    sudo zypper clean
+    sudo zypper mr --disable --all
+    sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
+    sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
+    sudo zypper ref
+    sudo zypper in proxychains-ng opi
+    sudo usermod -a -G docker idea
+    sed -i '$d' /etc/proxychains.conf
+    sed -i '$d' /etc/proxychains.conf
+    echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
+    sudo proxychains4 opi codecs
+    sudo proxychains4 opi msedge
+    sudo proxychains4 opi vscode
+    sudo proxychains4 zypper in zsh fish btop htop dog exa fontweak \
+        upx wine yakuake brasero \
+        fprintd ouch dust yadm fd fzf ripgrep podman docker gimp jq kamoso kitty \
+        peek qps qpwgraph mpv aria2 falkon \
+        fcitx5 fcitx5-chinese-addons rime
+
 # examples
-_python:
+_py:
     #!/usr/bin/env python3
     print('Hello from python!')
 
@@ -43,13 +69,13 @@ _js:
     #!/usr/bin/env node
     console.log('Greetings from JavaScript!')
 
-_bash:
-    #!/usr/bin/env bash
+_sh:
+    #!/usr/bin/env sh
     set -euxo pipefail # 兼容性配置 https://just.systems/man/zh/chapter_41.html
     hello='Yo'
     echo "$hello from Bash!"
 
-_check_os:
+_os:
     @[ {{ os() }} = 'windows' ] && echo 'Hello from Windows'
     @[ {{ os() }} = 'linux' ] && echo 'Hello from Linux'
 
