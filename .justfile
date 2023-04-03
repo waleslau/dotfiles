@@ -35,12 +35,6 @@ init_wps-bwrap:
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
 sys-init:
-    mkdir -p /home/idea/windows/970PLUS
-    mkdir -p /home/idea/windows/WinOS
-    mkdir -p /home/idea/windows/WinData
-    echo '/dev/nvme0n1p3 /home/idea/windows/WinOS   ntfs ro,fmask=333,dmask=222,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
-    echo '/dev/nvme0n1p4 /home/idea/windows/WinData ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
-    echo '/dev/nvme1n1p1 /home/idea/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0' | sudo tee -a /etc/fstab
     sudo zypper clean
     sudo zypper mr --disable --all
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
@@ -59,6 +53,14 @@ sys-init:
         fprintd ouch dust yadm fd fzf ripgrep podman docker gimp jq kamoso kitty \
         peek qps qpwgraph mpv aria2 falkon \
         fcitx5 fcitx5-chinese-addons rime
+
+sys-init-fstab_win-disk:
+    mkdir -p $HOME/windows/970PLUS
+    mkdir -p $HOME/windows/WinOS
+    mkdir -p $HOME/windows/WinData
+    echo "/dev/nvme0n1p3 $HOME/windows/WinOS   ntfs ro,fmask=333,dmask=222,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
+    echo "/dev/nvme0n1p4 /$HOME/windows/WinData ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
+    echo "/dev/nvme1n1p1 $HOME/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
 
 # examples
 _py:
