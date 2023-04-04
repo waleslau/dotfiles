@@ -6,6 +6,11 @@ fmt:
 apply_changes: fmt
     yadm commit -a -m "update"
 
+n-install:
+    curl -L https://raw.gitmirror.com/tj/n/master/bin/n >$HOME/.local/bin/n
+    chmod +x $HOME/.local/bin/n
+    $HOME/.local/bin/n lts
+
 _init_linuxqq-bwrap:
     #!/usr/bin/env bash
     # 目前这坨脚本不太好使了, 改用 Flatpak 版了
