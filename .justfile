@@ -1,5 +1,7 @@
 fmt:
     just --fmt --unstable
+    shfmt -w .alias
+    shfmt -w .profile
 
 apply_changes: fmt
     yadm commit -a -m "update"
