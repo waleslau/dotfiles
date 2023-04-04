@@ -1,8 +1,8 @@
 fmt:
     just --fmt --unstable
 
-apply_changes arg:
-    env LANG=en_US.UTF-8 yadm commit -a '{{ arg }}'
+apply_changes:
+    env LANG=en_US.UTF-8 yadm commit -a -m "update"
     
 
 _init_linuxqq-bwrap:
