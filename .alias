@@ -14,7 +14,7 @@ alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
 --chdir ~ \
 --share-net"
 
-function set-proxy {
+function proxy-on {
 	if curl $(cat ~/.proxy_server) &>/dev/null; then
 		echo 'Y2F0ID4iJEhPTUUvLnNzaC9jb25maWciIDw8RU9GDQpIb3N0IGdpdGh1Yi5jb20NCiAgICBIb3N0bmFtZSBzc2guZ2l0aHViLmNvbQ0KICAgIFBvcnQgNDQzDQogICAgVXNlciBnaXQNCiAgICBQcm94eUNvbW1hbmQgbmMgLXYgLXggJChjYXQgfi8ucHJveHlfc2VydmVyKSAlaCAlcA0KRU9GDQo=' | base64 -d | bash
 		sock5h_url="socks5h://$(cat ~/.proxy_server)"
@@ -25,7 +25,7 @@ function set-proxy {
 		export https_proxy=$all_proxy
 		export HTTP_PROXY=$all_proxy
 		export HTTPS_PROXY=$all_proxy
-		export NO_PROXY=localhost,127.0.0.1
+		export NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
 		env | grep $(cat ~/.proxy_server)
 		git config --global http.https://github.com.proxy $sock5h_url
 		git config --global http.https://codeberg.org.proxy $sock5h_url
@@ -35,9 +35,9 @@ function set-proxy {
 	fi
 }
 
-function unset-proxy {
+function proxy-off {
 	sed -i '/http/d;/proxy/d' .gitconfig
-	echo 'SG9zdCBnaXRodWIuY29tCiAgICBIb3N0bmFtZSBzc2guZ2l0aHViLmNvbQogICAgUG9ydCA0NDMKICAgIFVzZXIgZ2l0Cg==' | base64 -d >.ssh/config
+	sed -i '/ProxyCommand/d' .ssh/config
 	unset all_proxy
 	unset ALL_PROXY
 	unset http_proxy
@@ -151,4 +151,6 @@ alias ip-lan='curl -s http://myip.ipip.net | sd "\n" "\t"'
 alias ip-wan='curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52" https://api.ip.sb/geoip | jq ".ip , .country" | sd "\"" "" | sd "\n" "\t"'
 alias ip-wan1='curl -s http://ipinfo.io/ip'
 alias www="miniserve --index=index.html -v"
+alias www="python3 -m http.server --bind 127.0.0.1 8888"
 alias ungit='ungit --port=8888'
+alias sudo-p='sudo proxychains4'

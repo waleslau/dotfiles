@@ -6,7 +6,7 @@ fmt:
 
 _init_linuxqq-bwrap:
     #!/usr/bin/env bash
-    # TODO：目前这坨脚本不太好使了，有时间再继续折腾
+    # TODO: 目前这坨脚本不太好使了，有时间再继续折腾
     cd /tmp
     curl -O https://dldir1.qq.com/qqfile/qq/QQNT/2355235c/linuxqq_3.1.1-11223_amd64.deb
     test -d linuxqq-nt-bwrap && rm -rf linuxqq-nt-bwrap
@@ -26,9 +26,8 @@ _init_linuxqq-bwrap:
 init_wps-bwrap:
     #!/usr/bin/env bash
     cd /tmp
-    test -d wps-office-bwrap && rm -rf wps-office-bwrap
-    git clone https://aur.archlinux.org/wps-office-bwrap.git
-    cd wps-office-bwrap
+    test -d wps-office-bwrap || git clone https://aur.archlinux.org/wps-office-bwrap.git  && cd wps-office-bwrap
+    git pull
     sudo cp -vf ~/.local/bin/wps-bwrap /usr/bin/wps-bwrap
     cp -vf ~/.local/bin/wps-bwrap ~/bin/wps
     sudo rm -f /usr/share/applications/wps-office*
@@ -40,19 +39,25 @@ sys-init:
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
     sudo zypper ref
+
+sys-init-soft:
     sudo zypper in proxychains-ng opi
-    sudo usermod -a -G docker idea
-    sed -i '$d' /etc/proxychains.conf
-    sed -i '$d' /etc/proxychains.conf
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
+    sudo vim /etc/proxychains.conf
     sudo proxychains4 opi codecs
+    sudo sd 'ftp.gwdg.de/pub/linux/misc/packman' 'mirrors.bfsu.edu.cn/packman' /etc/zypp/repos.d/packman.repo
     sudo proxychains4 opi msedge
     sudo proxychains4 opi vscode
-    sudo proxychains4 zypper in zsh fish btop htop dog exa fontweak \
+    sudo proxychains4 opi sarasa-mono-sc-nerd-fonts
+    sudo proxychains4 zypper in zsh fish btop htop dog exa \
         upx wine yakuake brasero \
-        fprintd ouch dust yadm fd fzf ripgrep podman docker gimp jq kamoso kitty \
-        peek qps qpwgraph mpv aria2 falkon \
-        fcitx5 fcitx5-chinese-addons rime
+        fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
+        peek qps qpwgraph aria2 falkon mpv \
+        fcitx5 fcitx5-chinese-addons rime tealdeer starship \
+        podman docker python311-docker-compose python311-podman-compose \
+        papirus-icon-theme keepassxc git-delta font-viewer fontweak sarasa-gothic-fonts
+    sudo usermod -a -G docker $USER
+    sudo usermod -a -G libvirt $USER
 
 sys-init-fstab_win-disk:
     mkdir -p $HOME/windows/970PLUS
@@ -61,6 +66,7 @@ sys-init-fstab_win-disk:
     echo "/dev/nvme0n1p3 $HOME/windows/WinOS   ntfs ro,fmask=333,dmask=222,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
     echo "/dev/nvme0n1p4 /$HOME/windows/WinData ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
     echo "/dev/nvme1n1p1 $HOME/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
+    sudo vim /etc/fstab
 
 # examples
 _py:
