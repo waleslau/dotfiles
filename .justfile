@@ -3,9 +3,6 @@ fmt:
     shfmt -w .alias
     shfmt -w .profile
 
-apply_changes: fmt
-    yadm commit -a -m "update"
-
 n-install:
     curl -L https://raw.gitmirror.com/tj/n/master/bin/n >$HOME/.local/bin/n
     chmod +x $HOME/.local/bin/n
@@ -40,7 +37,7 @@ init_wps-bwrap:
     sudo rm -f /usr/share/applications/wps-office*
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
-sys-init:
+sys-init-repo:
     sudo zypper clean
     sudo zypper mr --disable --all
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
@@ -56,7 +53,7 @@ sys-init-soft:
     sudo proxychains4 opi msedge
     sudo proxychains4 opi vscode
     sudo proxychains4 opi sarasa-mono-sc-nerd-fonts
-    sudo proxychains4 zypper in zsh fish btop htop dog exa \
+    sudo proxychains4 zypper in zsh fish btop htop dog exa pandoc \
         upx wine yakuake brasero \
         fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
         peek qps qpwgraph aria2 falkon mpv \
@@ -65,6 +62,7 @@ sys-init-soft:
         papirus-icon-theme keepassxc git-delta font-viewer fontweak sarasa-gothic-fonts
     sudo usermod -a -G docker $USER
     sudo usermod -a -G libvirt $USER
+    sudo proxychains4 opi joplin
 
 sys-init-fstab_win-disk:
     mkdir -p $HOME/windows/970PLUS

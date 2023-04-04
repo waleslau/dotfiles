@@ -163,6 +163,7 @@ alias en='LANG="en_US.UTF-8"'
 alias git-pushall='git remote | xargs -i git push {}'
 alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
 alias yadm-pushall='yadm remote | xargs -i yadm push {}'
+alias yadm-apply-changes='yadm commit -a -m "update"'
 
 if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
 	alias cfgit='git --git-dir=$HOME/.local/share/dotfiles.GitBareRepo --work-tree=$HOME'
