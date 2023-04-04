@@ -2,7 +2,7 @@ fmt:
     just --fmt --unstable
 
 apply_changes: fmt
-    env LANG=en_US.UTF-8 yadm commit -a -m "update"
+    yadm commit -a -m "update"
 
 _init_linuxqq-bwrap:
     #!/usr/bin/env bash
