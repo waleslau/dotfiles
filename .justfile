@@ -1,12 +1,14 @@
-@_default:
-    just --choose
-
 fmt:
     just --fmt --unstable
 
+apply_changes:
+    yadm commit -a -m "update"
+    yadm commit --amend
+    
+
 _init_linuxqq-bwrap:
     #!/usr/bin/env bash
-    # TODO: 目前这坨脚本不太好使了，有时间再继续折腾
+    # 目前这坨脚本不太好使了, 改用 Flatpak 版了
     cd /tmp
     curl -O https://dldir1.qq.com/qqfile/qq/QQNT/2355235c/linuxqq_3.1.1-11223_amd64.deb
     test -d linuxqq-nt-bwrap && rm -rf linuxqq-nt-bwrap
@@ -67,6 +69,10 @@ sys-init-fstab_win-disk:
     echo "/dev/nvme0n1p4 /$HOME/windows/WinData ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
     echo "/dev/nvme1n1p1 $HOME/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
     sudo vim /etc/fstab
+
+# The decryption password contains 4 characters
+ssh_gen_pubkey:
+    cd ~/.ssh && ssh-keygen -y -f id_rsa > id_rsa.pub
 
 # examples
 _py:
