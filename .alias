@@ -14,74 +14,65 @@ alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
 --chdir ~ \
 --share-net"
 
-# TODO:
-
-# 1. 取消无意义的检测外部文件获取代理地址的行为，反正目前都是本地代理，http、socks5都是 127.0.0.1:7890
-
-# 2. all_proxy 用socks5协议, http_proxy等用http协议
-
-# 3. 那几个环境变量，最好也整一份大写的，相关的环境变量可以都往 /etc/profile放一份
-# 	可以在 /etc/profile.d 新建一个文件 ，添加时可以一行一行加，删除时直接删这个文件，就很方便
-#	这里理论上是生效到全局的，要生效需要重新登陆才行，要完全取消也应该重新登录。或者手动 export/unset，可以写脚本解决
-# 		 export all_proxy=socks5h://127.0.0.1:7890
-# 		 export http_proxy=http://127.0.0.1:7890
-#		 export https_proxy=http://127.0.0.1:7890
-#		 export no_proxy=192.168.*.*,172.16.*.*,*.local,localhost,127.0.0.1
-#		 export ALL_PROXY=$all_proxy
-#		 export HTTP_PROXY=$http_proxy
-#		 export HTTPS_PROXY=$https_proxy
-#		 export NO_PROXY=$no_proxy
-#	这一大坨环境变量配合proxychains-ng，应该可以解决大部分
-#		 unset all_proxy
-#		 unset ALL_PROXY
-#		 unset http_proxy
-#		 unset https_proxy
-#		 unset HTTP_PROXY
-#		 unset HTTPS_PROXY
-# 4. 反正用了clash 分流，不如直接给 git 全局代理
-#		 git config --global http.proxy socks5h://127.0.0.1:7890
-#		 git config --global --unset http.proxy
-
-# 5. Docker
-# 	/etc/systemd/system/docker.service.d/http-proxy.conf
-#		[Service]
-#		Environment=http_proxy=http://proxyip:8118 https_proxy=http://proxyip:8118
-# 	然后热重载
-# 		systemctl daemon-reload
-# 		systemctl restart docker.service
-# 	这个法子好硬核的样子，来源：https://cloud.tencent.com/developer/article/1627708
-# 其他：https://dockerproxy.com/docs
-
 function proxy-on {
-	if curl $(cat ~/.proxy_server) &>/dev/null; then
-		echo 'Y2F0ID4iJEhPTUUvLnNzaC9jb25maWciIDw8RU9GDQpIb3N0IGdpdGh1Yi5jb20NCiAgICBIb3N0bmFtZSBzc2guZ2l0aHViLmNvbQ0KICAgIFBvcnQgNDQzDQogICAgVXNlciBnaXQNCiAgICBQcm94eUNvbW1hbmQgbmMgLXYgLXggJChjYXQgfi8ucHJveHlfc2VydmVyKSAlaCAlcA0KRU9GDQo=' | base64 -d | bash
-		sock5h_url="socks5h://$(cat ~/.proxy_server)"
-		http_url="http://$(cat ~/.proxy_server)"
-		export all_proxy=$sock5h_url
-		export ALL_PROXY=$all_proxy
-		export http_proxy=$http_url
-		export HTTP_PROXY=$http_proxy
-		export HTTPS_PROXY=$https_proxy
-		export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-		export NO_PROXY=$no_proxy
-		env | grep $(cat ~/.proxy_server)
-		git config --global http.https://github.com.proxy $sock5h_url
-		git config --global http.https://codeberg.org.proxy $sock5h_url
-	else
-		echo '~/.proxy_server not ok..'
-		echo 'example: echo "127.0.0.1:7890" > ~/.proxy_server'
-	fi
+	host=127.0.0.1:7890
+	socks5_url=socks5h://$host
+	http_url=http://$host
+
+	# git
+	git config --global http.proxy $socks5_url
+	# git config --global http.https://github.com.proxy $socks5_url
+	# git config --global http.https://codeberg.org.proxy $socks5_url
+
+	# ssh
+	echo "Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+    ProxyCommand nc -v -x $url %h %p" >$HOME/.ssh/config
+	# ProxyCommand nc -v -x $url %h %p" | tee $HOME/.ssh/config
+
+	# env
+	export all_proxy=$socks5_url
+	export http_proxy=$http_url
+	export https_proxy=$http_url
+	export no_proxy=192.168.*.*,172.16.*.*,*.local,localhost,127.0.0.1
+	export ALL_PROXY=$socks5_url
+	export HTTP_PROXY=$http_url
+	export HTTPS_PROXY=$http_url
+	export NO_PROXY=$no_proxy
+	env | grep $host
 }
 
+## 让代理对 Docker 也生效的方法（未验证）
+#     /etc/systemd/system/docker.service.d/http-proxy.conf
+#        [Service]
+#        Environment=http_proxy=http://proxyip:8118 https_proxy=http://proxyip:8118
+#     然后热重载
+#         systemctl daemon-reload
+#         systemctl restart docker.service
+#     这个法子好硬核的样子，来源：https://cloud.tencent.com/developer/article/1627708
+# 其他：https://dockerproxy.com/docs
+
 function proxy-off {
-	sed -i '/http/d;/proxy/d' .gitconfig
+	# git
+	git config --global --unset http.proxy
+	# git config --global --unset http.https://github.com.proxy
+	# git config --global --unset http.https://codeberg.org.proxy
+	# sed -i '/http/d;/proxy/d' .gitconfig
+
+	# ssh
 	sed -i '/ProxyCommand/d' .ssh/config
+
+	# env
 	unset all_proxy
 	unset ALL_PROXY
 	unset http_proxy
 	unset https_proxy
 	unset HTTP_PROXY
 	unset HTTPS_PROXY
+	unset no_proxy
+	unset NO_PROXY
 	env | grep PROXY
 	env | grep proxy
 	echo "ok"
