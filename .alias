@@ -153,20 +153,8 @@ alias ref-dup-dl-only='cat ~/.password | sudo -S proxychains4 zypper ref && sudo
 alias en='LANG="en_US.UTF-8"'
 alias git-pushall='git remote | xargs -i git push {}'
 alias git-apply-changes='git commit -a -m "update"'
-alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
 alias yadm-pushall='yadm remote | xargs -i yadm push {}'
 alias yadm-apply-changes='yadm commit -a -m "update"'
-
-if [ -d "$HOME/.local/share/dotfiles.GitBareRepo" ]; then
-	alias cfgit='git --git-dir=$HOME/.local/share/dotfiles.GitBareRepo --work-tree=$HOME'
-	alias cfgit-push-all='for i in $(cfgit remote) ;do cfgit push $i ;done'
-	alias cfgit-force-push-all='for i in $(cfgit remote) ;do cfgit push -f $i ;done'
-	alias cfgit-add-push-all='cfgit commit -a && for i in $(cfgit remote) ;do cfgit push $i ;done'
-	alias cfgit-status='cfgit status'
-	alias cfgit-stash='cfgit stash'
-	alias cfgit-restore='cfgit restore'
-	alias cfgit-diff='cfgit diff'
-fi
 
 alias clang-format="clang-format --style=WebKit"
 alias paste-farsee='curl -F "c=@-" "https://fars.ee/"'
