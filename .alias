@@ -152,6 +152,7 @@ alias qcow2_password_init="virt-customize --root-password password:root --run-co
 alias ref-dup-dl-only='cat ~/.password | sudo -S proxychains4 zypper ref && sudo zypper dup --no-recommends --download-only'
 alias en='LANG="en_US.UTF-8"'
 alias git-pushall='git remote | xargs -i git push {}'
+alias git-apply-changes='git commit -a -m "update"'
 alias git-add-commit-push='git add . && git commit -m "update" && for i in $(git remote) ;do git push $i ;done'
 alias yadm-pushall='yadm remote | xargs -i yadm push {}'
 alias yadm-apply-changes='yadm commit -a -m "update"'
