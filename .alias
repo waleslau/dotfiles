@@ -14,10 +14,10 @@ alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
 --chdir ~ \
 --share-net"
 
-function proxy-on {
-	host=127.0.0.1:7890
-	socks5_url=socks5h://$host
-	http_url=http://$host
+function set-proxy {
+	host_port=127.0.0.1:7890
+	socks5_url=socks5h://$host_port
+	http_url=http://$host_port
 
 	# git
 	git config --global http.proxy $socks5_url
@@ -29,7 +29,7 @@ function proxy-on {
     Hostname ssh.github.com
     Port 443
     User git
-    ProxyCommand nc -v -x $url %h %p" >$HOME/.ssh/config
+    ProxyCommand nc -v -x $host_port %h %p" >$HOME/.ssh/config
 	# ProxyCommand nc -v -x $url %h %p" | tee $HOME/.ssh/config
 
 	# env
@@ -41,7 +41,7 @@ function proxy-on {
 	export HTTP_PROXY=$http_url
 	export HTTPS_PROXY=$http_url
 	export NO_PROXY=$no_proxy
-	env | grep $host
+	env | grep $host_port
 }
 
 ## 让代理对 Docker 也生效的方法（未验证）
@@ -54,7 +54,7 @@ function proxy-on {
 #     这个法子好硬核的样子，来源：https://cloud.tencent.com/developer/article/1627708
 # 其他：https://dockerproxy.com/docs
 
-function proxy-off {
+function unset-proxy {
 	# git
 	git config --global --unset http.proxy
 	# git config --global --unset http.https://github.com.proxy
