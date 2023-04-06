@@ -37,31 +37,30 @@ init_wps-bwrap:
     sudo rm -f /usr/share/applications/wps-office*
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
-sys-init-repo:
+sys-init-repo_and_utility:
     sudo zypper clean
     sudo zypper mr --disable --all
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
     sudo zypper ref
+    sudo zypper in zsh fish btop htop dog exa pandoc \
+        upx wine yakuake brasero \
+        fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
+        peek qps qpwgraph aria2 falkon mpv \
+        fcitx5 fcitx5-chinese-addons rime tealdeer starship \
+        podman docker python311-docker-compose python311-podman-compose \
+        papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
+    sudo usermod -a -G docker $USER
 
-sys-init-soft:
-    sudo zypper in proxychains-ng opi
+sys-init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
     sudo vim /etc/proxychains.conf
     sudo proxychains4 opi codecs
     sudo sd 'ftp.gwdg.de/pub/linux/misc/packman' 'mirrors.bfsu.edu.cn/packman' /etc/zypp/repos.d/packman.repo
     sudo proxychains4 opi msedge
     sudo proxychains4 opi vscode
-    sudo proxychains4 opi sarasa-mono-sc-nerd-fonts
-    sudo proxychains4 zypper in zsh fish btop htop dog exa pandoc \
-        upx wine yakuake brasero \
-        fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
-        peek qps qpwgraph aria2 falkon mpv \
-        fcitx5 fcitx5-chinese-addons rime tealdeer starship \
-        podman docker python311-docker-compose python311-podman-compose \
-        papirus-icon-theme keepassxc git-delta font-viewer fontweak sarasa-gothic-fonts
-    sudo usermod -a -G docker $USER
-    sudo usermod -a -G libvirt $USER
+    sudo proxychains4 opi sarasa # sarasa-gothic-fonts
+    sudo proxychains4 opi sarasa # sarasa-mono-sc-nerd-fonts
     sudo proxychains4 opi joplin
 
 sys-init-fstab_win-disk:
