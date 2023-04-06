@@ -47,10 +47,15 @@ sys-init-repo_and_utility:
         upx wine yakuake brasero \
         fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
         peek qps qpwgraph aria2 falkon mpv \
-        fcitx5 fcitx5-chinese-addons rime tealdeer starship \
+        fcitx5 fcitx5-chinese-addons fcitx5-rime tealdeer starship \
         podman docker python311-docker-compose python311-podman-compose \
         papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
     sudo usermod -a -G docker $USER
+
+sys-rime-install:
+    cd ~/bin && curl -fsSL -O https://raw.githubusercontents.com/rime/plum/master/rime-install
+    grep '/usr/bin' ~/bin/rime-install && chmod +x ~/bin/rime-install
+    env rime_frontend=fcitx5-rime bash rime-install :preset iDvel/rime-ice:others/recipes/full
 
 sys-init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
