@@ -52,11 +52,6 @@ sys-init-repo_and_utility:
         papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
     sudo usermod -a -G docker $USER
 
-sys-rime-install:
-    cd ~/bin && curl -fsSL -O https://raw.githubusercontents.com/rime/plum/master/rime-install
-    grep '/usr/bin' ~/bin/rime-install && chmod +x ~/bin/rime-install
-    env rime_frontend=fcitx5-rime bash rime-install :preset iDvel/rime-ice:others/recipes/full
-
 sys-init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
     sudo vim /etc/proxychains.conf
@@ -77,9 +72,15 @@ sys-init-fstab_win-disk:
     echo "/dev/nvme1n1p1 $HOME/windows/970PLUS ntfs rw,fmask=133,dmask=022,uid=1000,gid=1000 0  0" | sudo tee -a /etc/fstab
     sudo vim /etc/fstab
 
-# The decryption password contains 4 characters
 ssh_gen_pubkey:
+    yadm decrypt # password contains 4 characters
     cd ~/.ssh && ssh-keygen -y -f id_rsa > id_rsa.pub
+
+rime-install:
+    cd ~/bin && curl -fsSL -O https://raw.githubusercontents.com/rime/plum/master/rime-install
+    grep '/usr/bin' ~/bin/rime-install && chmod +x ~/bin/rime-install
+    sed -i 's/github.com/ghproxy.com\/github.com/g' ~/bin/rime-install
+    env rime_frontend=fcitx5-rime bash rime-install :preset iDvel/rime-ice:others/recipes/full
 
 # examples
 _py:
