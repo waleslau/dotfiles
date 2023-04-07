@@ -43,7 +43,7 @@ sys-init-repo_and_utility:
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
     sudo zypper ref
-    sudo zypper in zsh fish btop htop dog exa pandoc \
+    sudo zypper in zsh fish btop htop dog exa pandoc git-delta \
         upx wine yakuake brasero \
         fprintd ouch dust yadm sd fd fzf ripgrep gimp kamoso kitty \
         peek qps qpwgraph aria2 falkon mpv \
