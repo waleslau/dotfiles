@@ -51,6 +51,12 @@ sys-init-repo_and_utility:
         podman docker python311-docker-compose python311-podman-compose \
         papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
     sudo usermod -a -G docker $USER
+    sudo zypper in rustup
+    rustup default stable
+    cargo install miniserver
+    cargo install dufs
+    cargo install xh
+    # cargo install fselect
 
 sys-init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
