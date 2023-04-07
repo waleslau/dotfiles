@@ -45,18 +45,25 @@ sys-init-repo_and_utility:
     sudo zypper ref
     sudo zypper in zsh fish btop htop dog exa pandoc \
         upx wine yakuake brasero \
-        fprintd ouch dust yadm sd fd fzf ripgrep gimp jq kamoso kitty \
+        fprintd ouch dust yadm sd fd fzf ripgrep gimp kamoso kitty \
         peek qps qpwgraph aria2 falkon mpv \
         fcitx5 fcitx5-chinese-addons fcitx5-rime tealdeer starship \
-        podman docker python311-docker-compose python311-podman-compose \
         papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
-    sudo usermod -a -G docker $USER
     sudo zypper in rustup
     rustup default stable
-    cargo install miniserver
     cargo install dufs
     cargo install xh
+    # cargo install miniserver
     # cargo install fselect
+
+sys-init-docker:
+    sudo zypper in podman docker python311-docker-compose python311-podman-compose jq
+    sudo usermod -a -G docker $USER
+    cat /etc/docker/daemon.json > /tmp/docker.daemon.json
+    echo '{"registry-mirrors":["https://dockerproxy.com","https://mirror.baidubce.com"]}' >> /tmp/docker.daemon.json
+    cat /tmp/docker.daemon.json | jq -s add > /tmp/docker.daemon.mirrors.json
+    sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak
+    sudo cp /tmp/docker.daemon.mirrors.json /etc/docker/daemon.json
 
 sys-init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
