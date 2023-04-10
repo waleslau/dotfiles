@@ -87,6 +87,7 @@ fi
 # pypi mirror
 if hash pip 2>/dev/null && [ ! -s $HOME/.config/pip/pip.conf ]; then
 	pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+	pip config set install.trusted-host mirrors.bfsu.edu.cn
 fi
 
 # https://github.com/tj/n

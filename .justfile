@@ -45,10 +45,11 @@ sys-init-repo_and_utility:
     sudo zypper ref
     sudo zypper in zsh fish btop htop dog exa pandoc git-delta \
         upx wine yakuake brasero \
-        fprintd ouch dust yadm sd fd fzf ripgrep gimp kamoso kitty \
+        fprintd ouch dust ncdu yadm sd fd fzf ripgrep gimp kamoso kitty \
         peek qps qpwgraph aria2 falkon mpv \
         fcitx5 fcitx5-chinese-addons fcitx5-rime tealdeer starship \
-        papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi
+        papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi \
+        tesseract-ocr tesseract-ocr-traineddata-chi_sim tesseract-ocr-traineddata-chi_sim_vert
     sudo zypper in rustup
     rustup default stable
     cargo install dufs
