@@ -3,6 +3,12 @@ fmt:
     shfmt -w .alias
     shfmt -w .profile
 
+enable_thinkbook_battery_care:
+    echo 1 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004\:00/conservation_mode
+
+disable_thinkbook_battery_care:
+    echo 0 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004\:00/conservation_mode
+
 n-install:
     curl -L https://raw.gitmirror.com/tj/n/master/bin/n >$HOME/.local/bin/n
     chmod +x $HOME/.local/bin/n
