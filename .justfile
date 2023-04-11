@@ -43,7 +43,7 @@ init_wps-bwrap:
     sudo rm -f /usr/share/applications/wps-office*
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
-sys-init-repo_and_utility:
+init_repo_and_utility:
     sudo zypper clean
     sudo zypper mr --disable --all
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
@@ -63,7 +63,7 @@ sys-init-repo_and_utility:
     # cargo install miniserver
     # cargo install fselect
 
-sys-init-docker:
+init_docker-and-podman:
     sudo zypper in podman docker python311-docker-compose python311-podman-compose jq
     sudo usermod -a -G docker $USER
     cat /etc/docker/daemon.json > /tmp/docker.daemon.json
@@ -71,8 +71,10 @@ sys-init-docker:
     cat /tmp/docker.daemon.json | jq -s add > /tmp/docker.daemon.mirrors.json
     sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak
     sudo cp /tmp/docker.daemon.mirrors.json /etc/docker/daemon.json
+    sudo cp /etc/containers/registries.conf /etc/containers/registries.conf.bak
+    sudo cp .config/containers/registries.conf /etc/containers/registries.conf
 
-sys-init-soft-opi:
+init-soft-opi:
     echo 'socks5 127.0.0.1 7890' | sudo tee -a /etc/proxychains.conf
     sudo vim /etc/proxychains.conf
     sudo proxychains4 opi codecs
