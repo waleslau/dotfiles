@@ -43,16 +43,18 @@ init_wps-bwrap:
     sudo rm -f /usr/share/applications/wps-office*
     sudo cp -vf wps-office-bwrap.desktop /usr/share/applications/wps-office-bwrap.desktop
 
-init_repo_and_utility:
+init_base-repo:
     sudo zypper clean
     sudo zypper mr --disable --all
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
     sudo zypper ar -cfg 'https://mirrors.bfsu.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
+
+init_utility:
     sudo zypper ref
     sudo zypper in zsh fish btop htop dog exa pandoc git-delta \
         upx wine yakuake brasero \
         fprintd ouch dust ncdu yadm sd fd fzf ripgrep gimp kamoso kitty \
-        peek qps qpwgraph aria2 falkon mpv \
+        qps qpwgraph aria2 falkon mpv filelight flameshot simplescreenrecorder peek\
         fcitx5 fcitx5-chinese-addons fcitx5-rime tealdeer starship \
         papirus-icon-theme keepassxc git-delta font-viewer fontweak proxychains-ng opi \
         tesseract-ocr tesseract-ocr-traineddata-chi_sim tesseract-ocr-traineddata-chi_sim_vert
