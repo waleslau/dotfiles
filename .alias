@@ -163,7 +163,7 @@ alias ping='ping -c 5'
 alias ip-lan='curl -s http://myip.ipip.net | sd "\n" "\t"'
 alias ip-wan='curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52" https://api.ip.sb/geoip | jq ".ip , .country" | sd "\"" "" | sd "\n" "\t"'
 alias ip-wan1='curl -s http://ipinfo.io/ip'
-alias www="miniserve --index=index.html -v"
+#alias www="miniserve --index=index.html -v"
 alias www="python3 -m http.server --bind 127.0.0.1 8888"
 alias ungit='ungit --port=8888'
 alias s-p='sudo proxychains4'

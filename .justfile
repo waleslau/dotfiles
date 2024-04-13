@@ -12,7 +12,7 @@ disable_thinkbook_battery_care:
 n-install:
     curl -L https://raw.gitmirror.com/tj/n/master/bin/n >$HOME/.local/bin/n
     chmod +x $HOME/.local/bin/n
-    $HOME/.local/bin/n lts
+    env N_PREFIX=$HOME/.n PATH="$HOME/.n/bin:$PATH" $HOME/.local/bin/n lts
 
 _init_linuxqq-bwrap:
     #!/usr/bin/env bash
