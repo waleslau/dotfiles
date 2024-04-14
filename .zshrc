@@ -17,3 +17,5 @@
 
 test -s $HOME/.alias && source $HOME/.alias
 test -s $HOME/.profile && source $HOME/.profile
+
+eval "$(atuin init zsh)"
