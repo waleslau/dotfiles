@@ -80,11 +80,11 @@ function unset-proxy {
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-if hash notify-send 2>/dev/null; then
+if hash notify-send &>/dev/null; then
 	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-if hash nvim 2>/dev/null; then
+if hash nvim &>/dev/null; then
 	alias vim="nvim"
 fi
 
@@ -99,7 +99,7 @@ rg-fzf() {
 			--bind "change:reload:$RG_PREFIX {q}" \
 			--preview-window="70%:wrap"
 	)" &&
-		if hash xdg-open 2>/dev/null; then
+		if hash xdg-open &>/dev/null; then
 			echo "opening $file"
 			xdg-open "$file"
 		else
@@ -111,7 +111,7 @@ alias fcd='cd $(fd -HI -t d | fzf)'
 alias fvi='vim $(fd -HI -t f | fzf)'
 alias fvi-sudo='cat ~/.password | sudo -S vim $(fd -HI -t f | fzf)'
 
-if hash exa 2>/dev/null; then
+if hash exa &>/dev/null; then
 	alias ls='exa'
 	alias l='exa -l --all --group-directories-first --git'
 	alias ll='exa -l --all --all --group-directories-first --git'
@@ -124,20 +124,20 @@ else
 	alias la='ls -A'
 fi
 
-if hash xdg-open 2>/dev/null; then
+if hash xdg-open &>/dev/null; then
 	alias clashui-web1='xdg-open http://yacd.haishan.me/'
 	alias clashui-web2='xdg-open http://clash.razord.top/'
 fi
 
-if hash wps-office 2>/dev/null; then
+if hash wps-office &>/dev/null; then
 	alias wps-office="QT_SCREEN_SCALE_FACTORS=1 wps-office"
 fi
 
-if hash kquitapp5 2>/dev/null; then
+if hash kquitapp5 &>/dev/null; then
 	alias plasmashell-restart="kquitapp5 plasmashell && kstart plasmashell"
 fi
 
-if hash nvidia-smi 2>/dev/null; then
+if hash nvidia-smi &>/dev/null; then
 	alias nvidia_offload='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia'
 fi
 
@@ -168,3 +168,4 @@ alias www="python3 -m http.server --bind 127.0.0.1 8888"
 alias ungit='ungit --port=8888'
 alias s-p='sudo proxychains4'
 alias zypper='proxychains4 zypper'
+alias happyn-stat='netcat -u 127.0.0.1 5644'

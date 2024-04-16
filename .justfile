@@ -1,7 +1,7 @@
 fmt:
     just --fmt --unstable
-    shfmt -w .alias
     shfmt -w .profile
+    shfmt -w .profile.d/*
 
 enable_thinkbook_battery_care:
     echo 1 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004\:00/conservation_mode
