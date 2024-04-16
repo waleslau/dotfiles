@@ -2,18 +2,6 @@
 # use `command -v command` or `hash command`
 # `hash` can detect binary only
 
-alias bwrap-open="bwrap --unshare-all --die-with-parent --ro-bind / / \
---tmpfs /sys --tmpfs /home --tmpfs /tmp --tmpfs /run --proc /proc --dev /dev \
---ro-bind "$XDG_RUNTIME_DIR" "$XDG_RUNTIME_DIR" \
---ro-bind /tmp/.X11-unix /tmp/.X11-unix \
---ro-bind /run/user/$UID/bus /run/user/$UID/bus \
---ro-bind ~/.local/share/fonts ~/.local/share/fonts \
---ro-bind ~/.config/fontconfig ~/.config/fontconfig \
---bind ~/.cache/fontconfig ~/.cache/fontconfig \
---bind ~/tmp ~/tmp \
---chdir ~ \
---share-net"
-
 function set-proxy {
 	host_port=127.0.0.1:7890
 	socks5_url=socks5h://$host_port
