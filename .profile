@@ -12,6 +12,8 @@
 # set $PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
 
+export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/home/idea/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
+
 # Load profiles from /etc/profile.d
 if test -d ~/.profile.d/; then
 	for profile in ~/.profile.d/*.sh; do
