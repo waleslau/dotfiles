@@ -2,8 +2,19 @@
 # use `command -v command` or `hash command`
 # `hash` can detect binary only
 
+function init-atuin {
+	hash atuin || sudo pacman -S atuin
+	atuin import auto
+	rm -rf ~/.local/share/blesh_git_repo
+	mkdir -p ~/.local/share/blesh_git_repo
+	bash -c 'cd ~/.local/share/blesh_git_repo \
+	  && git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git \
+	  && make -C ble.sh install PREFIX=~/.local'
+  }
+
 function set-proxy {
-	host_port=127.0.0.1:7890
+	#host_port=127.0.0.1:7890
+	host_port=192.168.100.1:7897
 	socks5_url=socks5h://$host_port
 	http_url=http://$host_port
 

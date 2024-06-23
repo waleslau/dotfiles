@@ -12,5 +12,8 @@
 test -s $HOME/.alias && source $HOME/.alias
 test -s $HOME/.profile && source $HOME/.profile
 
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+[[ -f ~/.local/share/blesh/ble.sh ]] \
+	&& source ~/.local/share/blesh/ble.sh --noattach --rcfile ~/.blerc \
+	&& ble-attach \
+	&& eval "$(atuin init bash)"
+
