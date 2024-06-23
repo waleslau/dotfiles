@@ -13,13 +13,12 @@ function init-atuin {
   }
 
 function set-proxy {
-	#host_port=127.0.0.1:7890
-	host_port=192.168.100.1:7897
+	host_port=10.0.2.2:7897
 	socks5_url=socks5h://$host_port
 	http_url=http://$host_port
 
 	# git
-	git config --global http.proxy $socks5_url
+	git config --global http.proxy $http_url
 	# git config --global http.https://github.com.proxy $socks5_url
 	# git config --global http.https://codeberg.org.proxy $socks5_url
 
@@ -61,7 +60,7 @@ function unset-proxy {
 	# sed -i '/http/d;/proxy/d' .gitconfig
 
 	# ssh
-	sed -i '/ProxyCommand/d' .ssh/config
+	sed -i '/ProxyCommand/d' ~/.ssh/config
 
 	# env
 	unset all_proxy
